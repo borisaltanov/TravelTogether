@@ -10,12 +10,16 @@
         Free seats: {{ travel.free_seats }} <br>
         Fee: {{ travel.fee }} <br>
 
-        {% if travel_registered %}
-        <h3>You are already joined</h3>
-        {% endif %}
+        {% if not is_creator %}
+            {% if travel_registered %}
+                <h3>You are already joined</h3>
+            {% endif %}
+            {% if not seats_check and not travel_registered %}
+                <form action="/travels/{{ travel.id }}/join_success">
+                    <input type="submit" value="Join" />
+                </form>
+            {% endif %}
 
-        {% if not is_creator and sets_check %}
-        <a href="/travels/{{ travel.id }}/join">Join</a>
         {% endif %}
     </h3>
 {% else %}
