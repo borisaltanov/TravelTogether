@@ -23,6 +23,7 @@ class Travel(models.Model):
     end = models.CharField(max_length=20, choices=TOWNS)
     free_seats = models.PositiveSmallIntegerField(default=1)
     fee = models.PositiveSmallIntegerField(default=1)
+    duration = models.CharField(max_length=20, default='')
 
     class Meta:
         db_table = 'Travel'
@@ -37,4 +38,3 @@ class TravelRegister(models.Model):
 
     def __str__(self):
         return '{}-{}'.format(self.travel, self.user)
-

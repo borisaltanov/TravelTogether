@@ -1,10 +1,10 @@
 from django.shortcuts import render
-#from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from .forms import TravelForm
 from .models import Travel, TravelRegister
 from django.contrib.auth.models import User
+from .google import duration, distance
 # Create your views here.
 
 
@@ -19,6 +19,8 @@ def add_travel(request):
         travel.end = request.POST.get('end')
         travel.free_seats = request.POST.get('free_seats')
         travel.fee = request.POST.get('fee')
+        travel.duration = duration(travel.start, travel.end)
+        travel.distance = distance(travel.start, travel.end)
         if travel.start == travel.end:
             context = {
                 'travel': travel,

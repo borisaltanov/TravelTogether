@@ -13,7 +13,12 @@ class TravelForm(forms.ModelForm):
     owner = forms.ModelChoiceField(queryset=Account.objects.all(),
                                    widget=forms.HiddenInput(), required=False)
     depart_time = forms.DateTimeField(widget=forms.DateTimeInput())
+    duration = forms.CharField(
+        max_length=20, widget=forms.HiddenInput(), required=False)
+    distance = forms.CharField(
+        max_length=20, widget=forms.HiddenInput(), required=False)
 
     class Meta:
         model = Travel
-        fields = ['owner', 'depart_time', 'start', 'end', 'free_seats', 'fee']
+        fields = ['owner', 'depart_time', 'start', 'end', 'free_seats', 'fee',
+                  'duration', 'distance', ]
