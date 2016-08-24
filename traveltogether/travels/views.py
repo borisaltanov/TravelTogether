@@ -17,8 +17,8 @@ def add_travel(request):
         travel.detart_date = form['depart_time']
         travel.start = request.POST.get('start')
         travel.end = request.POST.get('end')
-        # travel.free_seats = form['free_seats']
-        # travel.fee = form['fee']
+        travel.free_seats = request.POST.get('free_seats')
+        travel.fee = request.POST.get('fee')
         if travel.start == travel.end:
             context = {
                 'travel': travel,
@@ -42,10 +42,25 @@ def detail(request, travel_id):
     reg_users = TravelRegister.objects.filter(travel_id=travel_id)
     ids = [reg_user.user_id for reg_user in reg_users]
     users = User.objects.filter(id__in=ids)
+    is_creator = False
+    seats_check = False
+    travel_registered = False
+    try:
+        travel_registered = TravelRegister.objects.get(
+            travel_id=travel_id, user_id=request.user.id)
+    except TravelRegister.DoesNotExist:
+        pass
+    if travel.creator_id == user.id:
+        is_creator = True
+    if travel.free_seats == 0:
+        seats_check = True
     return render(request, 'travels/detail.html',
                   {'travel': travel,
                    'user': user,
                    'users': users,
+                   'is_creator': is_creator,
+                   'seats_check': seats_check,
+                   'travel_registered': travel_registered,
                    })
 
 
@@ -67,4 +82,6 @@ def join_travel(request, travel_id):
         travel_reg.save()
 
         return render(request, 'travels/join_success.html',
-                      {'travel': travel, 'user': user, 'travel_reg': travel_reg})
+                      {'travel': travel,
+                       'user': user,
+                       'travel_reg': travel_reg})

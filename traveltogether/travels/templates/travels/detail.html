@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block body %}
 {% if travel %}
     <h3>
         User : {{ travel.creator }} <br>
@@ -7,7 +10,13 @@
         Free seats: {{ travel.free_seats }} <br>
         Fee: {{ travel.fee }} <br>
 
+        {% if travel_registered %}
+        <h3>You are already joined</h3>
+        {% endif %}
+
+        {% if not is_creator and sets_check %}
         <a href="/travels/{{ travel.id }}/join">Join</a>
+        {% endif %}
     </h3>
 {% else %}
     <h3>No such travel!</h3>
@@ -21,5 +30,7 @@
     </ul>
     </h4>
 {% else %}
-    <h3>No travels available!</h3>
+    <h3>Noone has joined yet!</h3>
 {% endif %}
+
+{% endblock %}

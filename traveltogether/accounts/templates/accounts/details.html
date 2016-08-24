@@ -1,3 +1,7 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
 {% if user %}
     <h3>
         Username: {{ user.username }} <br>
@@ -22,3 +26,5 @@
 {% else %}
     <h3>No travels available!</h3>
 {% endif %}
+
+{% endblock %}

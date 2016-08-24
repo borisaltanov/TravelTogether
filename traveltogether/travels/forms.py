@@ -16,4 +16,4 @@ class TravelForm(forms.ModelForm):
 
     class Meta:
         model = Travel
-        fields = ['owner', 'depart_time', 'start', 'end', ]
+        fields = ['owner', 'depart_time', 'start', 'end', 'free_seats', 'fee']

@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block body %}
 {% if travels %}
     <h3>List of available travels<h3>
     <h4>
@@ -10,3 +13,5 @@
 {% else %}
     <h3>No travels available!</h3>
 {% endif %}
+
+{% endblock %}

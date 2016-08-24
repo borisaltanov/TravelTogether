@@ -2,21 +2,28 @@
 
 <html>
     <head>
-        <title>DriveTogether -  {% block title %}How to Tango with Django!{% endblock %}</title>
+        <style>
+ul#menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul#menu li {
+    display: inline;
+}
+</style>
+        <title>TravelTogether -  {% block title %}{% endblock %}</title>
     </head>
 
     <body>
-        <div>
-            {% block body_block %}{% endblock %}
-        </div>
-
         <hr />
-
         <div>
-            <ul>
+            <ul id=menu>
             {% if user.is_authenticated %}
                 <li><a href="/travels/">Travels</a></li>
                 <li><a href="/travels/add_travel/">Add a travel</a></li>
+                <li><a href="/accounts/">Users</a></li>
                 <li><a href="/accounts/logout/">Logout</a></li>
             {% else %}
                 <li><a href="/accounts/register/">Register Here</a></li>
@@ -24,6 +31,11 @@
             {% endif %}
             </ul>
         </div>
+        <hr />
+        <div>
+            {% block body %}{% endblock %}
+        </div>
 
     </body>
 </html>
+
