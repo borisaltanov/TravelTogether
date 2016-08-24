@@ -1,0 +1,12 @@
+{% if travels %}
+    <h3>List of available travels<h3>
+    <h4>
+    <ul>
+        {% for travel in travels %}
+            <li><a href="/travels/{{ travel.id }}">{{ travel }}</a></li>
+        {% endfor %}
+    </ul>
+    </h4>
+{% else %}
+    <h3>No travels available!</h3>
+{% endif %}

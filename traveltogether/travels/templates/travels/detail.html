@@ -1,0 +1,25 @@
+{% if travel %}
+    <h3>
+        User : {{ travel.creator }} <br>
+        Depart: {{ travel.depart_time }} <br>
+        Start: {{ travel.start }} <br>
+        End: {{ travel.end }} <br>
+        Free seats: {{ travel.free_seats }} <br>
+        Fee: {{ travel.fee }} <br>
+
+        <a href="/travels/{{ travel.id }}/join">Join</a>
+    </h3>
+{% else %}
+    <h3>No such travel!</h3>
+{% endif %}
+
+{% if users %}
+    <ul>
+        {% for user in users %}
+            <li>{{ user }}</li>
+        {% endfor %}
+    </ul>
+    </h4>
+{% else %}
+    <h3>No travels available!</h3>
+{% endif %}

@@ -1,0 +1,24 @@
+{% if user %}
+    <h3>
+        Username: {{ user.username }} <br>
+        First name: {{ user.first_name }} <br>
+        Last_name: {{ user.last_name }} <br>
+        Email: {{ user.email }} <br>
+        Phone: {{ user.account.phone }} <br>
+    </h3>
+{% else %}
+    <h3>No such travel!</h3>
+{% endif %}
+
+{% if travels %}
+    <h3>List of user's travels <h3>
+    <h4>
+    <ul>
+        {% for travel in travels %}
+            <li><a href="/travels/{{ travel.id }}">{{ travel }}</a></li>
+        {% endfor %}
+    </ul>
+    </h4>
+{% else %}
+    <h3>No travels available!</h3>
+{% endif %}
