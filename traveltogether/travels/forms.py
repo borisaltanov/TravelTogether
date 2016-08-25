@@ -25,3 +25,8 @@ class TravelForm(forms.ModelForm):
         model = Travel
         fields = ['owner', 'depart_time', 'start', 'end', 'free_seats', 'fee',
                   'duration', 'distance', ]
+
+
+class TravelSearch(forms.Form):
+    start = forms.ChoiceField(choices=TOWNS)
+    end = forms.ChoiceField(choices=TOWNS)

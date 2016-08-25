@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404
-from .forms import TravelForm
+from django.shortcuts import get_object_or_404, get_list_or_404
+from .forms import TravelForm, TravelSearch
 from .models import Travel, TravelRegister
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -89,6 +89,30 @@ def join_travel(request, travel_id):
                       {'travel': travel,
                        'user': user,
                        'travel_reg': travel_reg})
+
+
+@login_required(login_url='/accounts/login/')
+def search_travel(request):
+    context = {}
+    context = {}
+    form = TravelSearch(request.POST or None)
+    context['form'] = form
+    if form.is_valid():
+        start = request.POST.get('start')
+        end = request.POST.get('end')
+        if start == end:
+            context['error_message'] = "Start and end must be different"
+            return render(request, 'travels/search.html', context)
+        try:
+            travels = Travel.objects.filter(
+                start=start, end=end).order_by('depart_time')
+            context['travels'] = travels
+            return render(request, 'travels/search_results.html', context)
+        except Travel.DoesNotExist:
+            context['error_message'] = "No travels found"
+            return render(request, 'travels/search.html', context)
+
+    return render(request, 'travels/search.html', context)
 
 
 @login_required(login_url='/accounts/login/')

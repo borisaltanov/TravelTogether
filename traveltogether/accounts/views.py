@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from travels.models import Travel
 from .forms import UserForm, AccountForm
+from django.contrib import messages
 
 
 def register(request):
@@ -25,6 +26,7 @@ def register(request):
             account.user = user
             account.save()
             registered = True
+            messages.success(request, 'You have been registered')
 
         else:
             print (user_form.errors, account_form.errors)
@@ -37,6 +39,7 @@ def register(request):
                   'accounts/register.html',
                   {'user_form': user_form,
                    'account_form': account_form,
+                   'messages': messages,
                    'registered': registered})
 
 
