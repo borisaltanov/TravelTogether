@@ -21,10 +21,6 @@ class UserForm(forms.ModelForm):
 
         return password2
 
-    """
-    THANK YOU DJANGO DOCUMENTATION!
-    """
-
     def save(self, commit=True):
         user = super(UserForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password2"])
