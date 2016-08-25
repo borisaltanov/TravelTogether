@@ -10,7 +10,7 @@
         Free seats: {{ travel.free_seats }} <br>
         Fee: {{ travel.fee }} <br>
         Duration: {{ travel.duration }} <br>
-        Distance: {{ travel.distance }}
+        Distance: {{ travel.distance }} <br>
 
         {% if not is_creator %}
             {% if travel_registered %}
@@ -22,6 +22,11 @@
                 </form>
             {% endif %}
 
+        {% endif %}
+        {% if is_creator or travel_registered%}
+            <form action="/travels/{{ travel.id }}/export">
+                <input type="submit" value="Export" />
+            </form>
         {% endif %}
     </h3>
 {% else %}

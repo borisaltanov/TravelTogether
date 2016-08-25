@@ -24,12 +24,16 @@ class Travel(models.Model):
     free_seats = models.PositiveSmallIntegerField(default=1)
     fee = models.PositiveSmallIntegerField(default=1)
     duration = models.CharField(max_length=20, default='')
+    distance = models.CharField(max_length=20, default='')
 
     class Meta:
         db_table = 'Travel'
 
     def __str__(self):
         return '{}-{} at {}'.format(self.start, self.end, self.depart_time)
+
+    def get_depart_time(self):
+        return self.depart_time
 
 
 class TravelRegister(models.Model):

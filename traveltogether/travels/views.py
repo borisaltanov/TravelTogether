@@ -4,13 +4,17 @@ from django.shortcuts import get_object_or_404
 from .forms import TravelForm
 from .models import Travel, TravelRegister
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from .google import duration, distance
-# Create your views here.
+from .calendar import date_time_format, duration_format, travel_export
 
 
 @login_required(login_url='/accounts/login/')
 def add_travel(request):
+    created = False
+    context = {}
     form = TravelForm(request.POST or None)
+    context['form'] = form
     if form.is_valid():
         travel = form.save(commit=False)
         travel.creator = request.user
@@ -20,20 +24,18 @@ def add_travel(request):
         travel.free_seats = request.POST.get('free_seats')
         travel.fee = request.POST.get('fee')
         travel.duration = duration(travel.start, travel.end)
+        print(travel.duration)
         travel.distance = distance(travel.start, travel.end)
         if travel.start == travel.end:
-            context = {
-                'travel': travel,
-                'form': form,
-                'error_message': 'Start and end must be different',
-            }
+            context['error_message'] = "Start and end must be different"
             return render(request, 'travels/add_travel.html', context)
         travel.save()
-        return render(request, 'travels/detail.html', {'travel': travel})
+        created = True
+        context['travel'] = travel
+        print (travel.duration)
+        print (duration_format(travel.duration))
 
-    context = {
-        "form": form,
-    }
+    context['created'] = created
     return render(request, 'travels/add_travel.html', context)
 
 
@@ -87,3 +89,25 @@ def join_travel(request, travel_id):
                       {'travel': travel,
                        'user': user,
                        'travel_reg': travel_reg})
+
+
+@login_required(login_url='/accounts/login/')
+def export_ics(request, travel_id):
+    user = request.user
+    travel = get_object_or_404(Travel, pk=travel_id)
+    if travel:
+        depart_time = date_time_format(str(travel.depart_time))
+        duration = duration_format(travel.duration)
+        start = str(travel.start)
+        end = str(travel.end)
+        user_email = user.email
+        username = user.username
+
+        event = travel_export(
+            travel_id, depart_time, duration, start, end, user_email)
+        file_name = '{}_for_{}.ics'.format(travel_id, username)
+
+        response = HttpResponse(event, content_type="text/calendar")
+        response['Content-Disposition'] = 'attachment; filename={}'.format(
+            file_name)
+        return response
