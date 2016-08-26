@@ -25,7 +25,7 @@ def duration_format(duration):
 
 
 def travel_export(
-        travel_id, depart_time, duration, start, end, user_email, usename,
+        travel_id, depart_time, duration, start, end, user_email, username,
         write=False):
     event = """BEGIN:VCALENDAR
 BEGIN:VEVENT
@@ -47,7 +47,7 @@ TRIGGER:-P0DT1H0M0S
 END:VALARM
 END:VEVENT
 END:VCALENDAR""".format(depart_time, duration, start, start, end, user_email)
-    file_name = 'travel_{}_for_{}.ics'.format(travel_id, usename)
+    file_name = 'travel_{}_for_{}.ics'.format(travel_id, username)
     path = join(MEDIA_ROOT, 'travels', 'export', file_name)
     if write:
         with open(path, 'w') as export_ics:

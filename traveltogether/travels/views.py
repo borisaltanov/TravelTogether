@@ -92,15 +92,24 @@ def join_travel(request, travel_id):
         end = str(travel.end)
         user_email = user.email
         username = user.username
+        creator = User.objects.get(id=travel.creator_id)
 
-        event = travel_export(
+        event_creator = travel_export(
+            travel_id, depart_time, duration, start, end, creator.email,
+            creator.username, write=True)
+        file_name_creator = event_creator[1]
+
+        event_user = travel_export(
             travel_id, depart_time, duration, start, end, user_email,
             username, write=True)
-        file_name = event[1]
+        file_name_user = event_user[1]
 
         depart_time_regular = str(travel.depart_time)
+        mail = mail_register(depart_time_regular, start, end, creator.email,
+                             file_name_creator, creator=True)
+        mail.send()
         mail = mail_register(
-            depart_time_regular, start, end, user_email, file_name)
+            depart_time_regular, start, end, user_email, file_name_user)
         mail.send()
 
         return render(request, 'travels/join_success.html',

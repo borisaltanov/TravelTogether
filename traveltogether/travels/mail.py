@@ -4,8 +4,14 @@ from traveltogether.settings import MEDIA_ROOT
 from os.path import join
 
 
-def mail_register(depart_time, start, end, user_email, file_name):
-    BODY = """You have joined a travel!
+def mail_register(
+        depart_time, start, end, user_email, file_name, creator=False):
+    if creator:
+        BODY = """A person have joined your travel from {} to {} on {}.
+You can download the attrached file and import it to you calendar.
+""".format(start, end, depart_time)
+    else:
+        BODY = """You have joined a travel!
 You will travel from {} to {} on {}.
 You can download the attrached file and import it to you calendar.
 If you do that it will notify you one hour before the travel.
