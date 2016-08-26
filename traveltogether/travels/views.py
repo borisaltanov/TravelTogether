@@ -112,8 +112,6 @@ def join_travel(request, travel_id):
             depart_time_regular, start, end, user_email, file_name_user)
         mail.send()
 
-        print(5)
-
         return render(request, 'travels/join_success.html',
                       {'travel': travel,
                        'user': user,
