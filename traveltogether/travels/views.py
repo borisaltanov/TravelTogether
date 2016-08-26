@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from .google import duration, distance
 from .calendar import date_time_format, duration_format, travel_export
+from .mail import mail_register
 
 
 @login_required(login_url='/accounts/login/')
@@ -85,6 +86,23 @@ def join_travel(request, travel_id):
         travel_reg = TravelRegister(user=user, travel=travel)
         travel_reg.save()
 
+        depart_time = date_time_format(str(travel.depart_time))
+        duration = duration_format(travel.duration)
+        start = str(travel.start)
+        end = str(travel.end)
+        user_email = user.email
+        username = user.username
+
+        event = travel_export(
+            travel_id, depart_time, duration, start, end, user_email,
+            username, write=True)
+        file_name = event[1]
+
+        depart_time_regular = str(travel.depart_time)
+        mail = mail_register(
+            depart_time_regular, start, end, user_email, file_name)
+        mail.send()
+
         return render(request, 'travels/join_success.html',
                       {'travel': travel,
                        'user': user,
@@ -128,8 +146,8 @@ def export_ics(request, travel_id):
         username = user.username
 
         event = travel_export(
-            travel_id, depart_time, duration, start, end, user_email)
-        file_name = '{}_for_{}.ics'.format(travel_id, username)
+            travel_id, depart_time, duration, start, end, user_email, username)
+        file_name = event[1]
 
         response = HttpResponse(event, content_type="text/calendar")
         response['Content-Disposition'] = 'attachment; filename={}'.format(

@@ -25,7 +25,8 @@ def duration_format(duration):
 
 
 def travel_export(
-        travel_id, depart_time, duration, start, end, user_email):
+        travel_id, depart_time, duration, start, end, user_email, usename,
+        write=False):
     event = """BEGIN:VCALENDAR
 BEGIN:VEVENT
 DTSTART:{}
@@ -37,12 +38,7 @@ ACTION:EMAIL
 DESCRIPTION:This is an event reminder
 SUMMARY:Alarm notification
 ATTENDEE:mailto:{}
-TRIGGER:-P0DT0H10M0S
-END:VALARM
-BEGIN:VALARM
-ACTION:DISPLAY
-DESCRIPTION:This is an event reminder
-TRIGGER:-P0DT0H10M0S
+TRIGGER:-P0DT1H0M0S
 END:VALARM
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -51,5 +47,10 @@ TRIGGER:-P0DT1H0M0S
 END:VALARM
 END:VEVENT
 END:VCALENDAR""".format(depart_time, duration, start, start, end, user_email)
+    file_name = 'travel_{}_for_{}.ics'.format(travel_id, usename)
+    path = join(MEDIA_ROOT, 'travels', 'export', file_name)
+    if write:
+        with open(path, 'w') as export_ics:
+            export_ics.write(event)
 
-    return event
+    return event, file_name

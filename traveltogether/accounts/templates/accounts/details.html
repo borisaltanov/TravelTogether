@@ -14,17 +14,32 @@
     <h3>No such travel!</h3>
 {% endif %}
 
-{% if travels %}
-    <h3>List of user's travels <h3>
+{% if travels_created %}
+    <h3>Created travels <h3>
     <h4>
     <ul>
-        {% for travel in travels %}
+        {% for travel in travels_created %}
             <li><a href="/travels/{{ travel.id }}">{{ travel }}</a></li>
         {% endfor %}
     </ul>
     </h4>
 {% else %}
-    <h3>No travels available!</h3>
+    <h3>Not offering travels</h3>
 {% endif %}
+
+{% if travels_joined %}
+    <h3>Joined travels <h3>
+    <h4>
+    <ul>
+        {% for travel in travels_joined %}
+            <li><a href="/travels/{{ travel.id }}">{{ travel }}</a></li>
+        {% endfor %}
+    </ul>
+    </h4>
+{% else %}
+    <h3>No joined travels </h3>
+{% endif %}
+
+
 
 {% endblock %}

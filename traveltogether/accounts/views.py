@@ -4,7 +4,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from travels.models import Travel
+from django.shortcuts import get_object_or_404
+from travels.models import Travel, TravelRegister
 from .forms import UserForm, AccountForm
 from django.contrib import messages
 
@@ -55,7 +56,6 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                print(type(user))
                 return HttpResponseRedirect('/')
             else:
                 return HttpResponse("Your account is disabled.")
@@ -78,8 +78,13 @@ def user_logout(request):
 
 @login_required(login_url='/accounts/login/')
 def details(request, account_id):
-    user = User.objects.get(id=account_id)
-    travels = Travel.objects.filter(creator_id=account_id)
+    user = get_object_or_404(User, id=account_id)
+    travels_created = Travel.objects.filter(creator_id=account_id)
+    travels_reg = TravelRegister.objects.filter(user_id=account_id)
+    ids = [travel_reg.travel_id for travel_reg in travels_reg]
+    travels_joined = Travel.objects.filter(id__in=ids)
 
     return render(request, 'accounts/details.html',
-                  {'user': user, 'travels': travels})
+                  {'user': user,
+                   'travels_created': travels_created,
+                   'travels_joined': travels_joined})

@@ -3,7 +3,7 @@
 {% block body %}
 {% if travel %}
     <h3>
-        User : <a href="{% url 'accounts:details' user.id %}">{{ travel.creator }}</a><br>
+        User : <a href="{% url 'accounts:details' travel.creator_id %}">{{ travel.creator }}</a><br>
         Depart: {{ travel.depart_time }} <br>
         Start: {{ travel.start }} <br>
         End: {{ travel.end }} <br>

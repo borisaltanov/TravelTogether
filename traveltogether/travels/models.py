@@ -41,4 +41,4 @@ class TravelRegister(models.Model):
     user = models.ForeignKey('auth.User')
 
     def __str__(self):
-        return '{}-{}'.format(self.travel, self.user)
+        return '{}'.format(self.travel)
