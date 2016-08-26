@@ -21,6 +21,8 @@ If you do that it will notify you one hour before the travel.
     mimetype = 'application/ics'
     ATTACHMENT = (file_name, content, mimetype)
 
+    print(5)
+
     email = EmailMessage(
         'Travel - Joined',
         BODY,
