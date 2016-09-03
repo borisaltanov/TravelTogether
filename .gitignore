@@ -109,3 +109,6 @@ Contact GitHub API Training Shop Blog About
 #sqlite3
 *.sqlite3
 
+#ics files
+*.ics
+

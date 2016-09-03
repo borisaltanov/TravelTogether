@@ -1,6 +1,8 @@
 import googlemaps
 
-API_KEY = 'AIzaSyANPmwlkany9JXvhyR8ytfleha3fQQYbKI'
+
+# API Key is deactivated, use you own key for now.
+API_KEY = 'YOUR_GOOGLEMAPS_API_KEY_HERE'
 gmaps = googlemaps.Client(API_KEY)
 
 

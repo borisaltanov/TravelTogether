@@ -1,5 +1,7 @@
 from django.conf.urls import url
-from .views import add_travel, detail, index, join_travel, export_ics, search_travel
+from .views import (
+    add_travel, detail, index, join_travel, export_ics, search_travel
+)
 
 
 app_name = 'travels'

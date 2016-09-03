@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.test import Client
 from django.utils import timezone
-from .models import Travel, TravelRegister
+from .models import Travel
 
 
 class TestTravel(TestCase):

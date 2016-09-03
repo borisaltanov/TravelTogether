@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, get_list_or_404
+from django.shortcuts import get_object_or_404
 from .forms import TravelForm, TravelSearch
 from .models import Travel, TravelRegister
 from django.contrib.auth.models import User
